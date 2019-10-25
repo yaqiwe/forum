@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.22.136.46:3306/community?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+mybatis:
+  configuration:
+    #开启自动驼峰命名规则映射
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com.example.forum.mapper: debug
