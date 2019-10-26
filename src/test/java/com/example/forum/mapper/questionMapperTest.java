@@ -1,6 +1,9 @@
 package com.example.forum.mapper;
 
+import com.example.forum.dto.questionDto;
 import com.example.forum.entity.question;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,5 +46,23 @@ class questionMapperTest {
         que.setProblemDescribe("问题描述");
         int i = questionM.insertQue(que);
         Assert.assertEquals(1,i);
+    }
+
+    @Test
+    void findAllTest(){
+        int page=1;
+        int limit=10;
+        PageHelper.startPage(page,limit);
+        Page<question> que = questionM.finAll();
+        Assert.assertEquals(limit,que.getPageSize());
+    }
+
+    @Test
+    void finAllByQuesAndUserTest(){
+        int page=0;
+        int limit=10;
+        PageHelper.startPage(page,limit);
+        Page<questionDto> dto = questionM.finAllByQuesAndUser();
+        Assert.assertEquals(dto.getPageSize(),limit);
     }
 }

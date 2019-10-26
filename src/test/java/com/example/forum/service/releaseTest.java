@@ -1,5 +1,6 @@
 package com.example.forum.service;
 
+import com.example.forum.ConExceptionUtil;
 import com.example.forum.entity.question;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -49,7 +50,7 @@ class releaseTest {
         try {
             questionS.releaseQuestion(null,text,creator,tag);
         } catch (Exception e) {
-            Assert.assertEquals(getValidationMessage(e),"[标题不能为空]");
+            Assert.assertEquals(ConExceptionUtil.getValidationMessage(e),"[标题不能为空]");
         }
     }
 
@@ -59,20 +60,8 @@ class releaseTest {
         try {
             questionS.releaseQuestion(title,null,creator,tag);
         } catch (Exception e) {
-            Assert.assertEquals(getValidationMessage(e),"[问题详情不能为空]");
+            Assert.assertEquals(ConExceptionUtil.getValidationMessage(e),"[问题详情不能为空]");
         }
     }
 
-
-    private String getValidationMessage(Exception e){
-        if(e instanceof ConstraintViolationException){
-            ConstraintViolationException cve= (ConstraintViolationException) e;
-            List<String> defaultMsg = cve.getConstraintViolations()
-                    .stream()
-                    .map(ConstraintViolation::getMessage)
-                    .collect(Collectors.toList());
-            return defaultMsg.toString();
-        }
-        return null;
-    }
 }

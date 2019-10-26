@@ -1,7 +1,10 @@
 package com.example.forum.service;
 
+import com.example.forum.dto.questionDto;
+import com.github.pagehelper.Page;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +18,6 @@ public interface questionService {
 
     /**
      * 发布问题,发布失败会被统一异常拦截
-     *
      * @param title
      * @param text
      * @param creator
@@ -25,4 +27,13 @@ public interface questionService {
                          @NotEmpty(message = "问题详情不能为空") String text,
                          @NotNull(message = "发布人id不能为空") int creator,
                          String tag);
+
+    /**
+     * 分页查询问题列表和发布的用户信息
+     * @param page 查询第几页 ,从1开始
+     * @param limit 每页有几条数据，从1开始
+     * @return
+     */
+    Page<questionDto> getQuestion(@Min(value = 1,message = "页数最小值不能小于1") int page,
+                                  @Min(value = 1,message = "每页数据条数最小值不能小于1") int limit);
 }
