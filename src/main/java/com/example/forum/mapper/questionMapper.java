@@ -7,14 +7,11 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.List;
-
 /**
  * @author ：yaqiwe
  * @date ：Created in 2019/10/25 14:26
  * @description：question操作数据库的mapper
  */
-@Mapper
 public interface questionMapper {
 
     /**

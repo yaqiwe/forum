@@ -2,8 +2,6 @@ package com.example.forum.entity;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 /**

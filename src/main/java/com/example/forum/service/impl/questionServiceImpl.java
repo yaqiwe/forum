@@ -1,7 +1,9 @@
 package com.example.forum.service.impl;
 
+import com.example.forum.Exceptions.forumException;
 import com.example.forum.dto.questionDto;
 import com.example.forum.entity.question;
+import com.example.forum.enums.forumEnums;
 import com.example.forum.mapper.questionMapper;
 import com.example.forum.service.questionService;
 import com.github.pagehelper.Page;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ：yaqiwe
@@ -29,9 +32,19 @@ public class questionServiceImpl  implements questionService {
     }
 
     @Override
-    public Page<questionDto> getQuestion(int page,int limit) {
+    public Page<questionDto> getQuestionList(int page, int limit) {
         PageHelper.startPage(page,limit,"create_time DESC");
         Page<questionDto> dto = questionM.finAllByQuesAndUser();
         return dto;
+    }
+
+    @Override
+    public question getQuestion(int questionId) {
+        question que = questionM.findById(questionId);
+        //文章不存在时
+        if (que==null){
+            throw new forumException(forumEnums.QUESTION_IS_NULL);
+        }
+        return que;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.forum.service;
 
-import com.example.forum.entity.question;
+import com.example.forum.entity.user;
 import com.example.forum.enums.forumEnums;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -13,29 +13,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author ：yaqiwe
- * @date ：Created in 2019/10/26 15:54
- * @description：查找文章详情操作测试
+ * @date ：Created in 2019/10/26 16:04
+ * @description：查找用户方法测试
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class getQuestionTest {
+class getUserByIdTest {
 
     @Autowired
-    questionService questionS;
+    userService userS;
 
-    int id=40;
+    int userId=7;
     @Test
-    void getQuestion() {
-        question que = questionS.getQuestion(id);
-        Assert.assertEquals(que.getId(),id);
+    void getUserById() {
+        user us = userS.getUserById(userId);
+        Assert.assertEquals(us.getId(),userId);
     }
 
     @Test
-    void getQueIsNull(){
+    void UserIsNull(){
         try {
-            questionS.getQuestion(1000);
+            userS.getUserById(10000);
         } catch (Exception e) {
-            Assert.assertEquals(e.getMessage(), forumEnums.QUESTION_IS_NULL.getMsg());
+            Assert.assertEquals(e.getMessage(), forumEnums.USER_IS_NULL.getMsg());
         }
     }
 }

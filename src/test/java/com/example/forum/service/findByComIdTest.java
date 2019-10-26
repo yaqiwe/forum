@@ -1,6 +1,6 @@
 package com.example.forum.service;
 
-import com.example.forum.entity.question;
+import com.example.forum.entity.comments;
 import com.example.forum.enums.forumEnums;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -13,29 +13,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author ：yaqiwe
- * @date ：Created in 2019/10/26 15:54
- * @description：查找文章详情操作测试
+ * @date ：Created in 2019/10/26 16:40
+ * @description：查找评论相关测试
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class getQuestionTest {
-
+class findByComIdTest {
     @Autowired
-    questionService questionS;
+    commentsService commentsS;
 
-    int id=40;
+    int comId=2;
+
     @Test
-    void getQuestion() {
-        question que = questionS.getQuestion(id);
-        Assert.assertEquals(que.getId(),id);
+    void findByComId(){
+        comments com = commentsS.findByComId(comId);
+        Assert.assertEquals(comId,com.getId());
     }
 
     @Test
-    void getQueIsNull(){
+    void ConIsNull(){
         try {
-            questionS.getQuestion(1000);
+            commentsS.findByComId(10000);
         } catch (Exception e) {
-            Assert.assertEquals(e.getMessage(), forumEnums.QUESTION_IS_NULL.getMsg());
+            Assert.assertEquals(e.getMessage(), forumEnums.COMMENTS_IS_NULL.getMsg());
         }
     }
+
 }
