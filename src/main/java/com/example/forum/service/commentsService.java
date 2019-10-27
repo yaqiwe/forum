@@ -1,6 +1,9 @@
 package com.example.forum.service;
 
+import com.example.forum.dto.commentListDto;
 import com.example.forum.entity.comments;
+
+import java.util.List;
 
 /**
  * @author ：yaqiwe
@@ -21,4 +24,11 @@ public interface commentsService {
      * @return
      */
     public comments findByComId(int comId);
+
+    /**
+     * 查找一篇文章的评论
+     * @param questionId
+     * @return
+     */
+    public List<commentListDto> getComInQuestion(int questionId);
 }

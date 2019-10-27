@@ -1,5 +1,6 @@
 package com.example.forum.mapper;
 
+import com.example.forum.dto.commentsDto;
 import com.example.forum.entity.comments;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,5 +63,21 @@ class commentsMapperTest {
         int id=0;
         comments com = commentsM.findByComId(id);
         Assert.assertNull(com);
+    }
+
+    @Test//查找文章的所有评论
+    void getComByQue(){
+        int questionId=40;
+        List<commentsDto> dto = commentsM.getComByQue(questionId);
+        for (commentsDto co : dto) {
+            Assert.assertNotNull(co);
+        }
+    }
+
+    @Test//查找不存在的文章的评论
+    void getComIsNull(){
+        int questionId=0;
+        List<commentsDto> dto = commentsM.getComByQue(questionId);
+        Assert.assertEquals(dto.size(),0);
     }
 }
