@@ -1,14 +1,24 @@
 package com.example.forum.controller;
 
 import com.example.forum.dto.PageDto;
+import com.example.forum.dto.commentListDto;
 import com.example.forum.dto.questionDto;
+import com.example.forum.entity.question;
+import com.example.forum.entity.user;
+import com.example.forum.service.commentsService;
 import com.example.forum.service.questionService;
 import com.example.forum.service.userService;
 import com.example.forum.util.Resoult;
 import com.example.forum.util.ResoultUtil;
 import com.github.pagehelper.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ：yaqiwe
@@ -24,6 +34,9 @@ public class questionController {
 
     @Autowired
     userService userS;
+
+    @Autowired
+    commentsService commentsS;
 
     /**
      * 发布问题
@@ -65,14 +78,27 @@ public class questionController {
         return ResoultUtil.success(dto);
     }
 
-//    /**
-//     * 查看文章详细内容，包含评论
-//     * @param questionId
-//     * @return
-//     */
-//    @GetMapping("/getQuestion")
-//    public Resoult getQuestion(@RequestParam(value = "questionId")int questionId) {
-//
-//    }
+    /**
+     * 查看文章详细内容，包含评论,和发布问题的用户信息
+     * @param questionId 文章Id
+     * @return
+     */
+    @GetMapping("/getQuestion")
+    public Resoult getQuestion(@RequestParam(value = "questionId")int questionId) {
+        //1.查询文章
+        question que = questionS.getQuestion(questionId);
+        //2.查询该文章的评论
+        List<commentListDto> com = commentsS.getComInQuestion(que.getId());
+        //3.查询发布该文章的用户的信息
+        user us = userS.getUserById(que.getCreator());
+        //组装数据
+        questionDto dto=new questionDto();
+        BeanUtils.copyProperties(que,dto);
+        BeanUtils.copyProperties(us,dto);
+        Map<String,Object> map=new LinkedHashMap<>();
+        map.put("question",dto);
+        map.put("comments",com);
+        return ResoultUtil.success(map);
+    }
 
 }

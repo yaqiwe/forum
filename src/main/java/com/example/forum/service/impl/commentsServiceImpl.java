@@ -29,6 +29,7 @@ public class commentsServiceImpl implements commentsService {
     commentsMapper commentsM;
     @Autowired
     questionService questionS;
+
     @Override
     public int addComment(comments com) {
         //查看是否存在该问题
@@ -58,50 +59,41 @@ public class commentsServiceImpl implements commentsService {
     public List<commentListDto> getComInQuestion(int questionId) {
         //1.查询该文章所有评论
         List<commentsDto> comDto = commentsM.getComByQue(questionId);
-        //2.将评论组装成 [评论:....,评论的回复:[回复1,.......]]的格式
-        List<commentListDto> dto=new ArrayList<>();
-        List<commentsDto> replyList = new ArrayList<>();
-        /**
-         * 1.查找第一个replyId=0的评论
-         * 2.将该评论id加到replyId数组里面
-         * 3.遍历剩下的评论（评论的回复只能在评论之后，不用遍历该评论之前的评论），
-         *      若回复的评论id（replyId）与数组里面的值相等
-         *      则将该评论的id也加入replyId数组，从评论comDto集合里面删除该评论的回复
-         * 4.将评论和评论的回复加入dto对象里
-         * 5.从从评论comDto集合里面删除该评论
-         * 6.重复1—5步骤，直到comDto集合为空，反悔呢
-         */
-        int[] replyId = null;
-        for (int i=0;i<comDto.size();) {
-            commentsDto co=comDto.get(i);
-            if (co.getComType() == 0) {
-                replyId=new int[comDto.size()];
-                int RI=0;
-                replyId[RI++] =co.getId();
-                for (int e=i;e<comDto.size();e++) {
-                    commentsDto replyDto=comDto.get(e);
-                    if(replyDto.getComType()==1){
-                        int j=0;
-                        while (j<RI){
-                            if(replyDto.getReplyId()==replyId[j++]){
-                                replyId[RI++] =replyDto.getId();
-                                replyList.add(replyDto);
-                                comDto.remove(replyDto);
-                                break;
-                            }
-                        }
+        List<commentListDto> comList = new ArrayList<>();
+        //2.组装评论
+        while (comDto.size() > 0) {
+            List<commentsDto> replyList=new ArrayList<>();
+            List<Integer> replyId = new ArrayList<>();
+            //文章的第一条评论的ComType一定为0
+            commentListDto litDto=new commentListDto();
+            BeanUtils.copyProperties(comDto.get(0),litDto);
+            //将第一条评论的id加入replyId
+            replyId.add(litDto.getId());
+            /**从comDto删除该文章评论*/
+            comDto.remove(0);
+            //循环后面的评论，查找后面的评论中回复replyId数组中id的评论
+            for (int i = 0;i < comDto.size(); i++) {
+                commentsDto co=comDto.get(i);
+                for (Integer reId : replyId) {
+                    //如果该评论是回复replyId数组中的人，则将该评论的id也加入replyId数组
+                    //后面的循环也会查找回复该评论的评论
+                    if(co.getReplyId()==reId) {
+                        commentsDto dto=new commentsDto();
+                        BeanUtils.copyProperties(co,dto);
+                        replyList.add(dto);
+                        /**从comDto删除该评论*/
+                        comDto.remove(i);
+                        replyId.add(co.getId());
+                        i--;
+                        break;
                     }
                 }
             }
-            commentListDto listDot=new commentListDto();
-            BeanUtils.copyProperties(co,listDot);
-            listDot.setReplyList(replyList);
-            comDto.remove(co);
-            replyList=new ArrayList<>();
-            dto.add(listDot);
+            //所以将所有评论组装到同一个commentListDto对象中
+            litDto.setReplyList(replyList);
+            comList.add(litDto);
         }
-        return dto;
+        return comList;
     }
-
-
 }
+

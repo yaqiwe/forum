@@ -27,7 +27,7 @@ public interface commentsService {
 
     /**
      * 查找一篇文章的评论
-     * @param questionId
+     * @param questionId 文章ID
      * @return
      */
     public List<commentListDto> getComInQuestion(int questionId);
