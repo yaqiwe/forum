@@ -10,6 +10,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -39,12 +40,24 @@ public class questionServiceImpl  implements questionService {
     }
 
     @Override
+    @Transactional
     public question getQuestion(int questionId) {
         question que = questionM.findById(questionId);
         //文章不存在时
         if (que==null){
             throw new forumException(forumEnums.QUESTION_IS_NULL);
+        }else {
+            //文章阅读数+1
+            questionM.addViewCount(que.getId());
         }
         return que;
+    }
+
+    @Override
+    public void addCommentCount(int questionId) {
+        int i = questionM.addCommentCount(questionId);
+        if (i!=1){
+            throw new forumException(forumEnums.REPLY_IS_ERROR);
+        }
     }
 }

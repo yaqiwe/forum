@@ -45,4 +45,10 @@ public interface questionService {
      * @return
      */
     question getQuestion(@NotNull(message = "文章ID不能为空") int questionId);
+
+    /**
+     * 文章评论数加1
+     * @param questionId
+     */
+    void addCommentCount(int questionId);
 }

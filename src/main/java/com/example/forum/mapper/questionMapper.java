@@ -6,6 +6,7 @@ import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author ：yaqiwe
@@ -40,4 +41,20 @@ public interface questionMapper {
      */
     @Select("select user.name,user.avatar_url,question.* FROM question LEFT OUTER JOIN user on question.creator=user.id")
     public Page<questionDto> finAllByQuesAndUser();
+
+    /**
+     * 更新数据库表文章阅读数加一
+     * @param questionId 文章ID
+     * @return
+     */
+    @Update("UPDATE question SET view_count=view_count+1 WHERE id=#{questionId}")
+    public int addViewCount(int questionId);
+
+    /**
+     * 更新数据库表文章评论数加一
+     * @param questionId
+     * @return
+     */
+    @Update("UPDATE question SET comment_count=comment_count+1 WHERE id=#{questionId}")
+    public int addCommentCount(int questionId);
 }

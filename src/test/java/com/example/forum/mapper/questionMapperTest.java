@@ -30,12 +30,12 @@ class questionMapperTest {
     @Autowired
     questionMapper questionM;
 
+    int questionId=40;
     @Test
     void findById() {
-        int id=10;
-        question que = questionM.findById(id);
+        question que = questionM.findById(questionId);
         log.info("[questionMapperTest] findById:{}",que);
-        Assert.assertEquals(que.getId(),id);
+        Assert.assertEquals(que.getId(),questionId);
     }
 
     @Test
@@ -65,5 +65,18 @@ class questionMapperTest {
         PageHelper.startPage(page,limit);
         Page<questionDto> dto = questionM.finAllByQuesAndUser();
         Assert.assertEquals(dto.getPageSize(),limit);
+    }
+
+
+    @Test
+    void AddViewCountTest(){
+        int i = questionM.addViewCount(questionId);
+        Assert.assertEquals(i,1);
+    }
+
+    @Test
+    void AddCommentCount(){
+        int i = questionM.addCommentCount(questionId);
+        Assert.assertEquals(i,1);
     }
 }

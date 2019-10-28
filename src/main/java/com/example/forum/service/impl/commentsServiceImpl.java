@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,9 @@ public class commentsServiceImpl implements commentsService {
     questionService questionS;
 
     @Override
+    @Transactional
     public int addComment(comments com) {
-        //查看是否存在该问题
+        //查看是否存在该问题,防止评论时该文章已经删除
         questionS.getQuestion(com.getQuestionId());
         //1.查看评论类型，若评论类型为1，
         if (com.getComType() == 1) {
@@ -42,6 +44,8 @@ public class commentsServiceImpl implements commentsService {
             if (RepCom.getQuestionId() != com.getQuestionId())
                 throw new forumException(forumEnums.REPLY_IS_ERROR);
         }
+        //文章评论数加1
+        questionS.addCommentCount(com.getQuestionId());
         //4.存入数据库
         return commentsM.addComment(com);
     }
@@ -62,9 +66,9 @@ public class commentsServiceImpl implements commentsService {
         List<commentListDto> comList = new ArrayList<>();
         //2.组装评论
         while (comDto.size() > 0) {
-            List<commentsDto> replyList=new ArrayList<>();
-            List<Integer> replyId = new ArrayList<>();
+            List<commentsDto> replyList=new ArrayList<>();      //评论回复的集合
             //文章的第一条评论的ComType一定为0
+            List<Integer> replyId = new ArrayList<>();      //评论以及评论的回复的Id
             commentListDto litDto=new commentListDto();
             BeanUtils.copyProperties(comDto.get(0),litDto);
             //将第一条评论的id加入replyId
@@ -78,9 +82,7 @@ public class commentsServiceImpl implements commentsService {
                     //如果该评论是回复replyId数组中的人，则将该评论的id也加入replyId数组
                     //后面的循环也会查找回复该评论的评论
                     if(co.getReplyId()==reId) {
-                        commentsDto dto=new commentsDto();
-                        BeanUtils.copyProperties(co,dto);
-                        replyList.add(dto);
+                        replyList.add(co);
                         /**从comDto删除该评论*/
                         comDto.remove(i);
                         replyId.add(co.getId());
