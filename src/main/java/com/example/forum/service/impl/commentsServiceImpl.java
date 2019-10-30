@@ -61,6 +61,7 @@ public class commentsServiceImpl implements commentsService {
 
     @Override
     public List<commentListDto> getComInQuestion(int questionId) {
+        int number=0;
         //1.查询该文章所有评论
         List<commentsDto> comDto = commentsM.getComByQue(questionId);
         List<commentListDto> comList = new ArrayList<>();
@@ -79,6 +80,7 @@ public class commentsServiceImpl implements commentsService {
             for (int i = 0;i < comDto.size(); i++) {
                 commentsDto co=comDto.get(i);
                 for (Integer reId : replyId) {
+                    number++;
                     //如果该评论是回复replyId数组中的人，则将该评论的id也加入replyId数组
                     //后面的循环也会查找回复该评论的评论
                     if(co.getReplyId()==reId) {

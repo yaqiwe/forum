@@ -79,4 +79,10 @@ class questionMapperTest {
         int i = questionM.addCommentCount(questionId);
         Assert.assertEquals(i,1);
     }
+
+    @Test
+    void AddLikeCount(){
+        int i = questionM.addLikeCount(questionId);
+        Assert.assertEquals(i,1);
+    }
 }

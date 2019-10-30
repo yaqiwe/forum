@@ -51,4 +51,10 @@ public interface questionService {
      * @param questionId
      */
     void addCommentCount(int questionId);
+
+    /**
+     * 给文章点赞
+     * @param questionId
+     */
+    void addLikeCount(int questionId);
 }

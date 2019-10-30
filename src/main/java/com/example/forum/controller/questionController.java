@@ -101,4 +101,15 @@ public class questionController {
         return ResoultUtil.success(map);
     }
 
+    /**
+     * 给文章点赞
+     * @param questionId
+     * @return
+     */
+    @PostMapping(value = "/addLikeCount")
+    public Resoult addLikeCount(@RequestParam("questionId")int questionId){
+        questionS.addLikeCount(questionId);
+        return ResoultUtil.success();
+    }
+
 }

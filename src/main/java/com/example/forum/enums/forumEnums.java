@@ -17,6 +17,7 @@ public enum forumEnums {
 
     /*问题service相关异常*/
     QUESTION_IS_NULL(600,"文章不存在"),
+    ADD_LIKE_COUNT_ERROR(601,"文章点赞失败"),
 
     /*用户Service相关异常*/
     USER_IS_NULL(700,"该用户不存在"),

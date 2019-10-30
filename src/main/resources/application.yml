@@ -11,3 +11,5 @@ mybatis:
 logging:
   level:
     com.example.forum.mapper: debug
+server:
+  port: 80

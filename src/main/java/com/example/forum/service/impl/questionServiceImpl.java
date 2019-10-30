@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 /**
  * @author ：yaqiwe
  * @date ：Created in 2019/10/25 17:04
@@ -58,6 +55,14 @@ public class questionServiceImpl  implements questionService {
         int i = questionM.addCommentCount(questionId);
         if (i!=1){
             throw new forumException(forumEnums.REPLY_IS_ERROR);
+        }
+    }
+
+    @Override
+    public void addLikeCount(int questionId) {
+        int i = questionM.addLikeCount(questionId);
+        if(i!=1){
+            throw new forumException(forumEnums.ADD_LIKE_COUNT_ERROR);
         }
     }
 }

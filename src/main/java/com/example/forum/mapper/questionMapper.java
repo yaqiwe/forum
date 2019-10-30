@@ -57,4 +57,12 @@ public interface questionMapper {
      */
     @Update("UPDATE question SET comment_count=comment_count+1 WHERE id=#{questionId}")
     public int addCommentCount(int questionId);
+
+    /**
+     * 更新数据库表文章点赞数加一
+     * @param questionId
+     * @return
+     */
+    @Update("UPDATE question SET like_count=like_count+1 WHERE id=#{questionId}")
+    public int addLikeCount(int questionId);
 }
