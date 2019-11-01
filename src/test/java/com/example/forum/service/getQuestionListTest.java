@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @description：
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class getQuestionListTest {
 
     @Autowired

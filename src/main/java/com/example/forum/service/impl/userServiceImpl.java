@@ -26,6 +26,7 @@ public class userServiceImpl implements userService {
         /*未实现，引入shiro后在*/
         user us = new user();
         us.setId(7);
+        us.setName("yaqiwe");
         return us;
     }
 

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @description：
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class commentsMapperTest {
 
     @Autowired

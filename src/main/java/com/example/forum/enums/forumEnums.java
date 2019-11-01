@@ -25,6 +25,9 @@ public enum forumEnums {
     /*commeentsService相关错误*/
     COMMENTS_IS_NULL(800,"找不到该评论，该评论可能已删除"),
     REPLY_IS_ERROR(801,"回复评论失败"),
+
+    /*webSocket错误信息*/
+    SEND_MESSAGE_ERROR(901,"发送通知失败"),
     ;
 
     private Integer code;

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @description：查找用户方法测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class getUserByIdTest {
 
     @Autowired

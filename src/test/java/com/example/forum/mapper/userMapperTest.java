@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @date ：Created in 2019/10/26 15:42
  * @description：
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @RunWith(SpringRunner.class)
 class userMapperTest {
     @Autowired

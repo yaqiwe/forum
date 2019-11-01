@@ -2,7 +2,10 @@ package com.example.forum.service;
 
 import com.example.forum.dto.commentListDto;
 import com.example.forum.entity.comments;
+import com.example.forum.entity.question;
+import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,8 +17,9 @@ public interface commentsService {
     /**
      * 发表评论&回复评论
      * @param com
+     * @return
      */
-    public int addComment(comments com);
+    public question addComment(@Validated comments com);
 
     /**
      * 查找评论

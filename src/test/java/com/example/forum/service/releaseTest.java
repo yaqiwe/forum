@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @description：发布问题的测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
 class releaseTest {
 

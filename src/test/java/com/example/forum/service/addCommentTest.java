@@ -1,6 +1,7 @@
 package com.example.forum.service;
 
 import com.example.forum.entity.comments;
+import com.example.forum.entity.question;
 import com.example.forum.enums.forumEnums;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @description：评论操作相关测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class addCommentTest {
     @Autowired
     commentsService commentsS;
@@ -34,8 +35,8 @@ class addCommentTest {
     @Test
     @Transactional  //发布评论
     void addComment(){
-        int i = commentsS.addComment(getCom());
-        Assert.assertEquals(i,1);
+        question que = commentsS.addComment(getCom());
+        Assert.assertNotNull(que.getId());
     }
 
     @Test //评论的文章不存在
@@ -55,8 +56,8 @@ class addCommentTest {
         comments com=getCom();
         com.setReplyId(2);
         com.setComType(1);
-        int i = commentsS.addComment(com);
-        Assert.assertEquals(i,1);
+        question que = commentsS.addComment(getCom());
+        Assert.assertNotNull(que.getId());
     }
 
 

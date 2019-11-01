@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @description：查找评论相关测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class findByComIdTest {
     @Autowired
     commentsService commentsS;

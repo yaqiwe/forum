@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @description：查找文章详情操作测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class getQuestionTest {
 
     @Autowired

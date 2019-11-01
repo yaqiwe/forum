@@ -15,11 +15,11 @@ import javax.websocket.Session;
 @Validated
 public class socketDto {
 
-    private Integer userId;     //连接的用户Id
+    private int userId;     //连接的用户Id
 
     private Session session;       //连接的用户Session
 
-    public socketDto(@NotNull(message = "连接Socket的用户Id不能为空") Integer userId,
+    public socketDto(@NotNull(message = "连接Socket的用户Id不能为空") int userId,
                      @NotNull(message = "连接Socket的用户Session不能为空") Session session) {
         this.userId = userId;
         this.session = session;

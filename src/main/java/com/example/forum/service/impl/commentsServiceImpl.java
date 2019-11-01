@@ -4,9 +4,11 @@ import com.example.forum.Exceptions.forumException;
 import com.example.forum.dto.commentListDto;
 import com.example.forum.dto.commentsDto;
 import com.example.forum.entity.comments;
+import com.example.forum.entity.question;
 import com.example.forum.enums.forumEnums;
 import com.example.forum.mapper.commentsMapper;
 import com.example.forum.service.commentsService;
+import com.example.forum.service.noticeService;
 import com.example.forum.service.questionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +36,9 @@ public class commentsServiceImpl implements commentsService {
 
     @Override
     @Transactional
-    public int addComment(comments com) {
+    public question addComment(comments com){
         //查看是否存在该问题,防止评论时该文章已经删除
-        questionS.getQuestion(com.getQuestionId());
+        question que = questionS.getQuestion(com.getQuestionId());
         //1.查看评论类型，若评论类型为1，
         if (com.getComType() == 1) {
             //2.查找回复的评论，若找不到抛出异常
@@ -47,7 +50,8 @@ public class commentsServiceImpl implements commentsService {
         //文章评论数加1
         questionS.addCommentCount(com.getQuestionId());
         //4.存入数据库
-        return commentsM.addComment(com);
+        commentsM.addComment(com);
+        return que;
     }
 
     @Override
